@@ -1,11 +1,10 @@
-import { create } from "domain";
+import fs from "fs";
 
-const fs = require("fs");
 const FILE_NAME = "tasks.json";
 
 function loadTasks() {
     if (!fs.existsSync(FILE_NAME)) {
-        fs.writeFileSync(FILE_NAME, "[]"); // create empty file
+        fs.writeFileSync(FILE_NAME, "[]");
         return [];
     }
     const data = fs.readFileSync(FILE_NAME, "utf-8");
@@ -16,11 +15,9 @@ function saveTasks(tasks) {
     fs.writeFileSync(FILE_NAME, JSON.stringify(tasks, null, 2));
 }
 
-loadTasks();
-
-function addTask(task) {
+function addTask(description) {
     const tasks = loadTasks();
-    const newId = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+    const newId = tasks.length ? Math.max(...tasks.map(t => t.taskId)) + 1 : 1;
     const now = new Date().toISOString().slice(0, 16);
 
     const newTask = {
@@ -31,9 +28,9 @@ function addTask(task) {
         updatedAt: now
     };
 
-    tasks.push(task);
+    tasks.push(newTask);
     saveTasks(tasks);
     console.log(`task added`);
-
 }
 
+addTask("this task is for testing the adding function");

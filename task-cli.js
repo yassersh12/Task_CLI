@@ -1,6 +1,11 @@
 import fs from "fs";
-
 const FILE_NAME = "tasks.json";
+
+const Status = {
+    IN_PROGRESS: "in-progress",
+    TODO: "todo",
+    DONE: "done"
+};
 
 function loadTasks() {
     if (!fs.existsSync(FILE_NAME)) {
@@ -83,5 +88,32 @@ function deleteTask(taskId) {
     saveTasks(newTasks);
     console.log(`Task deleted`);
 }
+const args = process.argv.slice(2);
+const command = args[0];
 
-addTask("this task is for testing the adding function");
+switch (command) {
+    case "add":
+        addTask(args[1]);
+        break;
+    case "update":
+        updateTaskDescription(parseInt(args[1]), args[2]);
+        break;
+    case "delete":
+        deleteTask(parseInt(args[1]));
+        break;
+    case "mark-done":
+        updateTaskStatus(parseInt(args[1]), "done");
+        break;
+    case "mark-in-progress":
+        updateTaskStatus(parseInt(args[1]), "in-progress");
+        break;
+    case "list":
+        if (!args[1]) {
+            listTasks();
+        } else {
+            listTasksByStatus(args[1]);
+        }
+        break;
+    default:
+        console.log("Unknown command");
+}

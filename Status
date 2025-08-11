@@ -1,5 +1,0 @@
-const Status = {
-    IN_PROGRESS: "in-progress",
-    TODO: "todo",
-    DONE: "done"
-};

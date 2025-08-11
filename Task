@@ -23,7 +23,7 @@ function addTask(description) {
     const newTask = {
         taskId: newId,
         description,
-        status: "todo",
+        status: Status.TODO,
         createdAt: now,
         updatedAt: now
     };
@@ -31,6 +31,22 @@ function addTask(description) {
     tasks.push(newTask);
     saveTasks(tasks);
     console.log(`task added`);
+}
+
+function listTasks() {
+    const tasks = loadTasks();
+    console.log("Tasks:");
+    tasks.forEach(task => {
+        console.log(`ID: ${task.taskId}, Description: ${task.description}, Status: ${task.status}, Created At: ${task.createdAt}`);
+    });
+}
+function listTasksByStatus(status) {
+    const tasks = loadTasks();
+    const filteredTasks = tasks.filter(task => task.status === status);
+    console.log(`Tasks with status "${status}":`);
+    filteredTasks.forEach(task => {
+        console.log(`ID: ${task.taskId}, Description: ${task.description}, Status: ${task.status}, Created At: ${task.createdAt}`);
+    });
 }
 
 addTask("this task is for testing the adding function");

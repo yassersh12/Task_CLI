@@ -49,4 +49,29 @@ function listTasksByStatus(status) {
     });
 }
 
+function updateTaskStatus(taskId, newStatus) {
+    const tasks = loadTasks();
+    const taskIndex = tasks.findIndex(task => task.taskId === taskId);
+    if (taskIndex === -1) {
+        console.log(`Task with ID ${taskId} not found.`);
+        return;
+    }
+    tasks[taskIndex].status = newStatus;
+    tasks[taskIndex].updatedAt = new Date().toISOString().slice(0, 16);
+    saveTasks(tasks);
+    console.log(`Task status updated`);
+}
+function updateTaskDescription(taskId, newDescription) {
+    const tasks = loadTasks();
+    const taskIndex = tasks.findIndex(task => task.taskId === taskId);
+    if (taskIndex === -1) {
+        console.log(`Task with ID not found.`);
+        return;
+    }
+    tasks[taskIndex].description = newDescription;
+    tasks[taskIndex].updatedAt = new Date().toISOString().slice(0, 16);
+    saveTasks(tasks);
+    console.log(`Task description updated`);
+}
+
 addTask("this task is for testing the adding function");

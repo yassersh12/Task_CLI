@@ -1,0 +1,39 @@
+import { create } from "domain";
+
+const fs = require("fs");
+const FILE_NAME = "tasks.json";
+
+function loadTasks() {
+    if (!fs.existsSync(FILE_NAME)) {
+        fs.writeFileSync(FILE_NAME, "[]"); // create empty file
+        return [];
+    }
+    const data = fs.readFileSync(FILE_NAME, "utf-8");
+    return JSON.parse(data || "[]");
+}
+
+function saveTasks(tasks) {
+    fs.writeFileSync(FILE_NAME, JSON.stringify(tasks, null, 2));
+}
+
+loadTasks();
+
+function addTask(task) {
+    const tasks = loadTasks();
+    const newId = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+    const now = new Date().toISOString().slice(0, 16);
+
+    const newTask = {
+        taskId: newId,
+        description,
+        status: "todo",
+        createdAt: now,
+        updatedAt: now
+    };
+
+    tasks.push(task);
+    saveTasks(tasks);
+    console.log(`task added`);
+
+}
+

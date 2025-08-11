@@ -73,5 +73,15 @@ function updateTaskDescription(taskId, newDescription) {
     saveTasks(tasks);
     console.log(`Task description updated`);
 }
+function deleteTask(taskId) {
+    const tasks = loadTasks();
+    const newTasks = tasks.filter(task => task.taskId !== taskId);
+    if (newTasks.length === tasks.length) {
+        console.log(`Task with ID not found.`);
+        return;
+    }
+    saveTasks(newTasks);
+    console.log(`Task deleted`);
+}
 
 addTask("this task is for testing the adding function");
